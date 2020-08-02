@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 class Home extends Component {
   render() {
     return (
-      <div>
+      <div style={{ display:'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
         Home화면입니다.
         <div>
           <Link to="/login"><button>로그인 화면</button></Link>

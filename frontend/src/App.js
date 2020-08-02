@@ -7,7 +7,8 @@ import SignUp from '../src/page/SignUp.js'
  
 function App() {
   return (
-    <div className="App">
+    <div>
+      <div style={{ height: 70, backgroundColor: 'gray', marginBottom: 50}}>메뉴바</div>
       <Router>
         <Switch>
           <Route exact path="/" component={Home} />
