@@ -1,6 +1,6 @@
 // server.js
 
-// [ENV]
+// [ENV] process
 require('dotenv').config();
 
 // [LOAD PACKAGES]
