@@ -6,8 +6,8 @@ module.exports = function(app, User)
     app.get('/checkUserId/:userId', function(req, res){
 
         User.findOne({userId : req.params.userId}, function(err, user){
-            if(err) return res.status(500).send({errCode: -1, errMsg: 'database failure'});
-            if(user) return res.status(404).json({errCode: -1, errMsg: '해당 아이디가 존재합니다. 재입력해주세요.'});
+            if(err) res.send({errCode: -1, errMsg: 'database failure'});
+            if(user) res.json({errCode: -1, errMsg: '해당 아이디가 존재합니다. 재입력해주세요.'});
             res.json({errCode:1, msg:'사용가능한 아이디입니다.', userId: req.params.userId});
         })
     });
@@ -25,16 +25,25 @@ module.exports = function(app, User)
     });
 
     //회원정보
-    app.get('/getUser/:userNm', function(req, res){
+    app.get('/getUser', function(req, res){
     //    User.readFile(userjsonDir, 'utf8', function (err, data) {
     //         var users = JSON.parse(data);
     //         res.json(users[req.params.username]);
     //    });
-        User.findOne({userNm: req.params.userNm}, function(err, user){
+        User.findOne({userId: req.params.userId, userPw: req.params.userPw }, function(err, user){
             if(err) return res.status(500).json({errCode: -1, errMsg: err});
-            if(!user) return res.status(404).json({errCode: -1, errMsg: 'user not found'});
-            res.json(user);
+            if(!user) return res.status(404).json({errCode: -1, errMsg: '사용자를 찾을 수 없습니다.'});
+
+            var returnUser = new User();
+            returnUser.userId = user.userId;
+            returnUser.userNm = user.userNm;
+            returnUser.birth = user.birth;
+            returnUser.addr = user.addr;
+            returnUser.phone = user.phone;
+            returnUser.email = user.email;
+            res.json(returnUser);
         })
+
     });
 
     //회원가입
@@ -42,17 +51,31 @@ module.exports = function(app, User)
         var result = {};
 
         // CHECK REQ VALIDITY
-        if(!req.body["userNm"] || !req.body["userId"] || !req.body["userPw"]){
+        if(!req.body["userId"]){
             result["errCode"] = -1;
-            result["errMsg"] = "invalid request";
+            result["errMsg"] = "userId를 입력해주세요.";
+            res.json(result);
+            return;
+        } else if(!req.body["userPw"]){
+            result["errCode"] = -1;
+            result["errMsg"] = "userPw를 입력해주세요.";
+            res.json(result);
+            return;
+        } else if(!req.body["userNm"]){
+            result["errCode"] = -1;
+            result["errMsg"] = "userNm을 입력해주세요.";
             res.json(result);
             return;
         }
 
         var user = new User();
-        user.userNm = req.body.userNm;
         user.userId = req.body.userId;
         user.userPw = req.body.userPw;
+        user.userNm = req.body.userNm;
+        user.birth = req.body.birth||'';
+        user.addr = req.body.addr||'';
+        user.phone = req.body.phone||'';
+        user.email = req.body.email||'';
         
         user.save(function(err) {
             if(err){
