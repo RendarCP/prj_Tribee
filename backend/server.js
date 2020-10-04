@@ -9,6 +9,7 @@ const ejs         = require("ejs");
 const bodyParser  = require('body-parser');
 const session     = require('express-session');
 const mongoose    = require('mongoose');
+const cors        = require('cors'); // 크로스 도메인
 const app         = express();
 
 // [ CONFIGURE mongoose ]
@@ -44,8 +45,11 @@ app.use(session({
     resave: false,
     saveUninitialized: true
 }));
+
 // public : **정적인 파일이 위치할 디렉토리의 이름**
 app.use(express.static('sources'));
+// CORS 미들웨어 추가
+app.use(cors()); 
 
 // [DEFINE MODEL]
 var Book = require('./models/book');

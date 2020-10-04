@@ -22,9 +22,11 @@ module.exports = function(app, User)
                 sess.userPw = user.userPw;
                 res.json(result);
             }
+            
             console.log("user", user);
             console.log("session", sess);
         })
+
         // User.readFile(userjsonDir, "utf8", function(err, data){
         //     var users = JSON.parse(data);
         //     var username = req.params.username;
