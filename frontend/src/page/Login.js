@@ -12,7 +12,7 @@ class Login extends Component {
           <div style={{ display: 'flex', flexDirection: 'column', width: '100%'}}>
             <input placeholder="아이디를 입력하세요"/>
            
-            <div style={{ height:'20px'}}/>
+            <div style={{ height:'20px'}} />
            
             <input placeholder="비밀번호를 입력하세요"/>
            

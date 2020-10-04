@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 class SignUp extends Component {
   state = {
@@ -22,6 +23,16 @@ class SignUp extends Component {
     this.setState({ 
       [e.target.name]: e.target.value 
     })
+  }
+
+  onSignUp = () => {
+    axios.get("http://localhost:8080/addUser/test")
+      .then( response => {
+        console.log(response);
+      })
+      .catch( err => {
+        console.log(err);
+      })
   }
 
   render() {
@@ -78,13 +89,15 @@ class SignUp extends Component {
             name='phone'
           />
           <div style={{ height: 20 }}/>
-          <div 
+          <div
             style={{ 
               textAlign: 'center', 
               backgroundColor: '#d6a511', 
               borderColor:'#d6a511', 
               borderRadius: 4, 
-              padding: 10 }}>회원가입</div>
+              padding: 10 }}
+              onClick={this.onSignUp}
+          >회원가입</div>
         </div>
       </div>
     );
