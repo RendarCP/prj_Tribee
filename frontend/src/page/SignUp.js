@@ -10,8 +10,10 @@ class SignUp extends Component {
     userId: '',
     password: '',
     passwordCheck: '',
+    userName:'',
     year: '',
     day: '',
+    addr: '',
     phone: '',
   }
   renderMonth() {
@@ -19,6 +21,7 @@ class SignUp extends Component {
       return <option key={month} value={month}>{month}</option>
     })
   }
+
   handleChange = (e) => {
     this.setState({ 
       [e.target.name]: e.target.value 
@@ -26,13 +29,27 @@ class SignUp extends Component {
   }
 
   onSignUp = () => {
-    axios.get("http://localhost:8080/addUser/test")
-      .then( response => {
-        console.log(response);
+    axios.get(`http://localhost:8080/checkUserId/${this.state.userId}`).
+    then( response => {
+      console.log(response);
+      axios.post("http://localhost:8080/addUser", {
+        userId: this.state.userId,
+        userPw: this.state.password,
+        userNm: this.state.userName,
+        // birth: this.state.year + this.state.monthValue + this.state.day,
+        // addr: this.state.addr,
+        // phone: this.state.phone
       })
-      .catch( err => {
-        console.log(err);
-      })
+        .then( response => {
+          console.log(response);
+          this.props.history.push('/login');
+        })
+        .catch( err => {
+          console.log(err);
+        })
+    }).catch( err => {
+      console.log(err);
+    })
   }
 
   render() {
@@ -50,6 +67,7 @@ class SignUp extends Component {
           
           <div>비밀번호</div>
           <input 
+            placeholder='비밀번호를 입력해주세요' 
             type='password' 
             value={this.state.password} 
             onChange={this.handleChange}
@@ -64,11 +82,33 @@ class SignUp extends Component {
             onChange={this.handleChange}
             name='passwordCheck'
           />
+          {
+            this.state.password === this.state.passwordCheck || this.state.passwordCheck ==! null
+              ? null
+              : <div style={{ color: 'red', fontSize: 13, marginTop: 5}}>비밀번호가 틀립니다. 확인해주세요!</div>
+
+          }
+          <div style={{ margin: 10}}/>
+
+          <div>이름</div>
+          <input 
+            placeholder='이름을 입력해주세요' 
+            type='userName' 
+            value={this.state.userName} 
+            onChange={this.handleChange}
+            name='userName'
+          />
           <div style={{ margin: 10}}/>
           
           <div>생년월일</div>
           <div style={{ display: 'flex', flexDirection: 'row' }}>
-            <input placeholder='년도'/>
+            <input
+              placeholder='년도를 입력해주세요' 
+              placeholder='년도'
+              value={this.state.year}
+              onChange={this.handleChange}
+              name='year'
+            />
             <div style={{ width: 10 }}/>
             <select 
               value={this.state.monthValue} 
@@ -78,12 +118,29 @@ class SignUp extends Component {
               {this.renderMonth()}
             </select>
             <div style={{ width: 10 }}/>
-            <input />
+            <input placeholder="날짜"
+              placeholder='날짜를 입력해주세요' 
+              value={this.state.day}
+              onChange={this.handleChange}
+              name='day'
+            />
           </div>
+          <div style={{ margin: 10}}/>
+
+          <div>주소</div>
+          <input 
+            placeholder='주소를 입력해주세요' 
+            type='addr' 
+            value={this.state.addr} 
+            onChange={this.handleChange}
+            name='addr'
+          />
           <div style={{ margin: 10}}/>
           
           <div>휴대폰 번호</div>
           <input 
+            placeholder='번호를 입력해주세요' 
+            onChange={this.handleChange}
             placeholder='번호를 입력해주세요'
             value={this.state.phone}
             name='phone'
