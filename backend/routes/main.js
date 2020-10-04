@@ -10,5 +10,8 @@ module.exports = function(app)
         })
     });
 
+<<<<<<< Updated upstream
     
+=======
+>>>>>>> Stashed changes
 }

@@ -54,4 +54,5 @@ var User = require('./models/user');
 // [CONFIGURE ROUTER]
 var router = require('./routes/main')(app);
 var router = require('./routes/userRoute')(app, User);
+var router = require('./routes/loginRoute')(app, User);
 var router = require('./routes/bookRoute')(app, Book);
