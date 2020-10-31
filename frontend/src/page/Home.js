@@ -9,6 +9,7 @@ class Home extends Component {
         <div>
           <Link to="/login"><button>로그인 화면</button></Link>
           <Link to="/signup"><button>회원가입 화면</button></Link>
+          <Link to="/posts"><button>포스트 화면</button></Link>
         </div>
       </div>
     );

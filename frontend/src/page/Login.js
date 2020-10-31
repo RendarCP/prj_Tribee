@@ -5,11 +5,25 @@ import '../css/Login.css'
 class Login extends Component {
   render() {
     return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', height: '500px', padding: '0 200px 0 200px'}}>
-        Login화면입니다.
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', width:'100%'}}>
-          <div>Tribee 로그인</div>
-          <div style={{ display: 'flex', flexDirection: 'column', width: '100%'}}>
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        flexDirection: 'column', 
+        height: 500,
+        width: 650,
+        padding: '0 100',
+        margin: '0 auto'
+        }}>
+        <div>Tribee 로그인</div>
+        <div style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'center', 
+          flexDirection: 'column', 
+          width: '100%'
+          }}>
+          <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
             <input placeholder="아이디를 입력하세요"/>
            
             <div style={{ height:'20px'}} />

@@ -54,8 +54,18 @@ class SignUp extends Component {
 
   render() {
     return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 500, flexDirection: 'column', padding:'0 235px 0 235px' }}>
-        회원가입 화면입니다.
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        height: 500, 
+        width: 650,
+        flexDirection: 'column', 
+        margin: '0 auto'
+        }}>
+        <div
+          style={{ padding: 35, fontWeight: 'bold', fontSize: 30}}>Tribee</div>
+        
         <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
           <div>아이디</div>
           <input 

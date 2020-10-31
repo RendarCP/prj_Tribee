@@ -1,22 +1,66 @@
 import React, { Component } from 'react';
 
+// icons
+import { HiHome } from 'react-icons/hi'
+import { BiComment } from 'react-icons/bi'
+import { GoLocation } from 'react-icons/go'
+
+// image
+import unlike from '../images/unlike.svg'
+
 class header extends Component {
   render() {
     return (
       <div style={{ 
           height: 70, 
-          backgroundColor: 'gray', 
           marginBottom: 50,
+          padding: '0 300px',
           display: 'flex',
+          alignItems: 'center',
+          borderBottom: '1px solid gray',
           justifyContent: 'space-between'}}>
-        <div>
+        <div style={{ fontSize: 24, fontWeight: 'bold' }}>
           Tribee
         </div>
+        
         <div>
-          검색창
+          <input />
         </div>
-        <div>
-          icon들 
+        
+        <div style={{ display:'flex', flexDirection: 'row'}}>
+          <div>
+            <HiHome style={{ width: 32, height: 32 }}/>
+          </div>
+          <div style={{ marginRight: 20 }} />
+          
+          <div>
+            <BiComment style={{ width: 32, height: 32 }} />
+          </div>
+          <div style={{ marginRight: 20 }} />
+
+          <div>
+            <GoLocation style={{ width: 32, height: 32 }} />
+          </div>
+          <div style={{ marginRight: 20 }} />
+          
+          <div>
+            <img
+              style={{ width: 32, height: 32 }}
+              src={unlike}/>
+          </div>
+          <div style={{ marginRight: 20 }} />
+
+          <div style={{ 
+              border: '1px solid black', 
+              width: 32, 
+              height: 32, 
+              borderRadius: 16,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+              }}>
+              조
+            </div>
         </div>
       </div>
     );
