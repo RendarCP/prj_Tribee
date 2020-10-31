@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import Hidden from '@material-ui/core/Hidden';
+import { Link } from 'react-router-dom'
+
+// --- icon 
+import { TiPlus } from 'react-icons/ti'
 import { FaRegCommentAlt } from "react-icons/fa";
 
 // image
@@ -63,6 +67,22 @@ class Posts extends Component {
                 <div style={{ fontSize: 14, fontWeight: 'bold'}}>test</div>
                 <div>cho seong wook</div>
               </div>
+              
+              <Link to="/editpost">
+                <div style={{ 
+                  position: 'fixed', 
+                  right: 100, 
+                  bottom: 100,
+                }}>
+                  <div style={{ 
+                    borderRadius: 10, 
+                    backgroundColor:'#d6a511', 
+                    padding: 20, 
+                  }}>
+                    <TiPlus />
+                  </div> 
+                </div>
+              </Link>
             </div>
             
             <div style={{ marginTop: 20 }}>
