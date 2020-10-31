@@ -1,38 +1,37 @@
 module.exports = function(app, User)
 {
-    // var userjsonDir = __dirname + "/../data/user.json";
+    // var userjsonDir = __dirname + '/../data/user.json';
     
     //회원ID 중복체크
-    app.get('/checkUserId/:userId', function(req, res){
+    app.get('/api/user/checkUserId/:userId', function(req, res){
 
-        User.findOne({userId : req.params.userId}, function(err, user){
-            if(err) res.send({errCode: -1, errMsg: 'database failure'});
-            if(user) res.json({errCode: -1, errMsg: '해당 아이디가 존재합니다. 재입력해주세요.'});
+        var userId = req.params.userId;
+
+        User.findOne({$and:[{userId: userId}]}, function(err, user){
+            if(err) return res.send({errCode: -1, errMsg: 'database failure', err: err});
+            if(user) return res.json({errCode: -1, errMsg: '해당 아이디가 존재합니다. 재입력해주세요.'});
             res.json({errCode:1, msg:'사용가능한 아이디입니다.', userId: req.params.userId});
         })
     });
 
     //회원정보리스트
-    app.post('/getUsers', function (req, res) {
+    app.get('/api/user/getUsers', function (req, res) {
         
         User.find(function(err, users){
-            if(err) return res.status(500).send({errMsg: 'database failure'});
+            if(err) return res.send({errCode: -1, errMsg: 'database failure', err: err});
+            if(0 == users.length) return res.json({errCode: 1, errMsg: '사용자가 존재하지 않습니다.'});
             res.json(users);
         })
-    //     User.readFile( userjsonDir, 'utf8', function (err, data) {
-    //        res.end( data );
-    //    });
     });
 
     //회원정보
-    app.get('/getUser', function(req, res){
-    //    User.readFile(userjsonDir, 'utf8', function (err, data) {
-    //         var users = JSON.parse(data);
-    //         res.json(users[req.params.username]);
-    //    });
-        User.findOne({userId: req.params.userId, userPw: req.params.userPw }, function(err, user){
-            if(err) return res.status(500).json({errCode: -1, errMsg: err});
-            if(!user) return res.status(404).json({errCode: -1, errMsg: '사용자를 찾을 수 없습니다.'});
+    app.post('/api/user/getUser', function(req, res){
+        var userId = req.body.userId;
+        var userPw = req.body.userPw;
+        
+        User.findOne({$and:[{userId: userId},{userPw:userPw}]}, function(err, user){
+            if(err) return res.send({errCode: -1, errMsg: 'database failure', err: err});
+            if(!user) return res.json({errCode: -1, errMsg: '사용자를 찾을 수 없습니다.'});
 
             var returnUser = new User();
             returnUser.userId = user.userId;
@@ -41,31 +40,21 @@ module.exports = function(app, User)
             returnUser.addr = user.addr;
             returnUser.phone = user.phone;
             returnUser.email = user.email;
+            returnUser.image = user.image;
             res.json(returnUser);
         })
 
     });
 
     //회원가입
-    app.post('/addUser', function(req, res){
-        var result = {};
+    app.post('/api/user/addUser', function(req, res){
 
-        // CHECK REQ VALIDITY
-        if(!req.body["userId"]){
-            result["errCode"] = -1;
-            result["errMsg"] = "userId를 입력해주세요.";
-            res.json(result);
-            return;
-        } else if(!req.body["userPw"]){
-            result["errCode"] = -1;
-            result["errMsg"] = "userPw를 입력해주세요.";
-            res.json(result);
-            return;
-        } else if(!req.body["userNm"]){
-            result["errCode"] = -1;
-            result["errMsg"] = "userNm을 입력해주세요.";
-            res.json(result);
-            return;
+        if(!req.body['userId']){
+            return res.json({errCode: -1, errMsg: '아이디를 입력해주세요.'});
+        } else if(!req.body['userPw']){
+            return res.json({errCode: -1, errMsg: '비밀번호를 입력해주세요.'});
+        } else if(!req.body['userNm']){
+            return res.json({errCode: -1, errMsg: '이름을 입력해주세요.'});
         }
 
         var user = new User();
@@ -76,95 +65,72 @@ module.exports = function(app, User)
         user.addr = req.body.addr||'';
         user.phone = req.body.phone||'';
         user.email = req.body.email||'';
+        user.image = req.body.image||'';
         
         user.save(function(err) {
-            if(err){
-                result["errCode"] = -1;
-                result["errMsg"] = "저장에 실패하였습니다.";
-                res.json(result);
-                return;
-            }
+            if(err) return res.send({errCode: -1, errMsg: '저장에 실패하였습니다.', err: err});
             res.json({errCode: 1, msg: '저장되었습니다.'});
         })
-
-        // LOAD DATA & CHECK DUPLICATION   
-        // User.readFile(userjsonDir, 'utf8',  function(err, data){
-        //     var users = JSON.parse(data);
-        //     if(users[username]){
-        //         // DUPLICATION FOUND
-        //         result["errCode"] = -1;
-        //         result["errMsg"] = "duplicate";
-        //         res.json(result);
-        //         return;
-        //     }
-
-        //     // ADD TO DATA
-        //     users[username] = req.body;
-
-        //     // SAVE DATA
-        //     User.writeFile(userjsonDir, 
-        //                  JSON.stringify(users, null, '\t'), "utf8", function(err, data){
-        //         result = {"errCode": 1};
-        //         res.json(result);
-        //     })
-        // })
     });
 
     //회원수정
-    app.put('/updateUser', function(req, res){
+    app.post('/api/user/updateUser', function(req, res){
         
-        var result = {};
+        if(!req.body.userId){
+            return res.json({errCode: -1, errMsg: 'userId를 입력해주세요.'});
+        } else if(!req.body.userPw){
+            return res.json({errCode: -1, errMsg: 'userPw를 입력해주세요.'});
+        } 
 
-        // CHECK REQ VALIDITY
-        if(!req.body["userId"] || !req.body["userPw"] || !req.body["userNm"]){
-            result["errCode"] = -1;
-            result["errMsg"] = "invalid request";
-            res.json(result);
-            return;
-        }
+        User.findOne({$and:[{userId: req.body.userId}]}, function(err, user){
+            if(err) return res.send({errCode: -1, errMsg: 'database failure', err: err});
+            if(!user) return res.json({errCode: -1, errMsg: '사용자를 찾을 수 없습니다.'});
 
-        // LOAD DATA   
-        // User.readFile(userjsonDir, 'utf8',  function(err, data){
-        //     var users = JSON.parse(data);
-        //     // ADD/MODIFY DATA
-        //     users[username] = req.body;
+            if(req.body.userNm) user.userNm = req.body.userNm;
+            if(req.body.birth) user.birth = req.body.birth;
+            if(req.body.addr) user.addr = req.body.addr;
+            if(req.body.phone) user.phone = req.body.phone;
+            if(req.body.email) user.email = req.body.email;
+            if(req.body.image) user.image = req.body.image;
+            if(req.body.updateUser) user.updateUser = req.body.updateUser;
+            if(req.body.updateDate) user.updateDate = req.body.updateDate;
 
-        //     // SAVE DATA
-        //     User.writeFile(userjsonDir, 
-        //                  JSON.stringify(users, null, '\t'), "utf8", function(err, data){
-        //         result = {"errCode": 1};
-        //         res.json(result);
-        //     })
-        // })
+            user.save(function(err){
+                if(err) return res.send({errCode: -1, errMsg: '수정에 실패하였습니다.', err: err});
+                res.json({errCode: 1, errMsg: '수정되었습니다.'});
+            })
+        });
+    });
+    
+    app.post('/api/user/updateUserPw', function(req, res){
+        
+        if(!req.body.userId){
+            return res.json({errCode: -1, errMsg: 'userId를 입력해주세요.'});
+        } else if(!req.body.userPw){
+            return res.json({errCode: -1, errMsg: 'userPw를 입력해주세요.'});
+        } 
+
+        User.findOne({$and:[{userId: req.body.userId}]}, function(err, user){
+            if(err) return res.send({errCode: -1, errMsg: 'database failure', err: err});
+            if(!user) return res.json({errCode: -1, errMsg: '사용자를 찾을 수 없습니다.'});
+            
+            user.userPw = req.body.userPw;
+            
+            user.save(function(err){
+                if(err) return res.send({errCode: -1, errMsg: '변경에 실패하였습니다.', err: err});
+                res.json({errCode: 1, errMsg: '변경되었습니다.'});
+            })
+        });
     });
 
     //회원삭제
-    app.delete('/deleteUser/:userId', function(req, res){
-        var result = { };
-        //LOAD DATA
-        // User.readFile(userjsonDir, "utf8", function(err, data){
-        //     var users = JSON.parse(data);
-            
-        // IF NOT FOUND
-        //if(!users[req.params.username]){
-        //    result["errCode"] = -1;
-        //    result["errMsg"] = "not found";
-        //    res.json(result);
-        //    return;
-        //}
-
-        //     // DELETE FROM DATA 
-        //delete users[req.params.username];
-            
-        //     // SAVE FILE
-        //     User.writeFile(userjsonDir,
-        //                  JSON.stringify(users, null, '\t'), "utf8", function(err, data){
-        //         result["errCode"] = 1;
-        //         res.json(result);
-        //         return;
-        //     })
-        // })
-
+    app.get('/api/user/delete/:userId', function(req, res){
+        
+        User.deleteOne({userId: req.params.userId }, function(err, output){
+            if(err) return res.send({errCode: -1, errMsg: 'database failure', err: err});
+            if(!output.n) return res.json({errCode: -1, errMsg: '사용자가 존재하지 않습니다.'});
+            res.json({errCode: 1, errMsg: '삭제되었습니다.'});
+        });
     });
 
 }

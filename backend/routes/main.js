@@ -7,7 +7,7 @@ module.exports = function(app)
             content: '환영합니다.',
             userId: sess.userId,
             userNm: sess.userNm
-        })
+        });
     });
 
     

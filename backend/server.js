@@ -12,6 +12,7 @@ const mongoose    = require('mongoose');
 const cors        = require('cors'); // 크로스 도메인
 const app         = express();
 
+
 // [ CONFIGURE mongoose ]
 var db_uri = process.env.MONGO_URI || 'mongodb://localhost:27017';
 // CONNECT TO MONGODB SERVER
@@ -52,11 +53,11 @@ app.use(express.static('sources'));
 app.use(cors()); 
 
 // [DEFINE MODEL]
-var Book = require('./models/book');
+var Post = require('./models/post');
 var User = require('./models/user');
 
 // [CONFIGURE ROUTER]
 var router = require('./routes/main')(app);
 var router = require('./routes/userRoute')(app, User);
 var router = require('./routes/loginRoute')(app, User);
-var router = require('./routes/bookRoute')(app, Book);
+var router = require('./routes/postRoute')(app, Post);
