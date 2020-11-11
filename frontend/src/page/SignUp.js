@@ -32,7 +32,7 @@ class SignUp extends Component {
     axios.get(`http://localhost:8080/checkUserId/${this.state.userId}`).
     then( response => {
       console.log(response);
-      axios.post("http://localhost:8080/addUser", {
+      axios.post("http://localhost:8080/api/user/addUser", {
         userId: this.state.userId,
         userPw: this.state.password,
         userNm: this.state.userName,
