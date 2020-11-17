@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 // icons
