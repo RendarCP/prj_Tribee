@@ -29,6 +29,7 @@ const useStyles = makeStyles({
 function EditPost() {
   const matches = useMediaQuery('(min-width:900px)');
   const [pictures, setPictures] = useState([]);
+  const [post, setPosts] = useState({});
   const [inputs, setInputs] = useState({
     contents: '',
     tag: ''
@@ -46,9 +47,21 @@ function EditPost() {
     setPictures([ ...pictures, picture ])
   };
 
+  const onPostUpload = () => { 
+    setPosts({
+      userId: 'test03',
+      contents: inputs.contents,
+      tag: inputs.tag,
+      images: pictures,
+      like: {},
+      comments: {},
+      positionId: {}
+    })
+  }
+
   const classes = useStyles();
   return (
-    console.log('test', pictures, inputs),
+    console.log('test', post),
     <div style={{ 
       justifyContent: 'center', 
       alignItems: 'center', 
@@ -104,6 +117,18 @@ function EditPost() {
           label="태그"
           variant="outlined"
         />
+      </div>
+      <div>
+      <div 
+        style={{ 
+          marginTop:30,
+          textAlign: 'center', 
+          backgroundColor: '#d6a511', 
+          borderColor:'#d6a511', 
+          borderRadius: 4, 
+          padding: 10 }}
+          onClick={onPostUpload}
+        >저장</div>
       </div>
     </div>
   );
