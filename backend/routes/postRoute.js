@@ -36,7 +36,7 @@ module.exports = function(app, Post)
         post.comments = req.body.comments||'';
         post.positionId = req.body.positionId||'';
         
-        Post.save(function(err) {
+        post.save(function(err) {
             if(err) return res.send({errCode: -1, errMsg: '저장에 실패하였습니다.', err: err});
             res.json({errCode: 1, msg: '저장되었습니다.'});
         })
@@ -44,6 +44,7 @@ module.exports = function(app, Post)
 
     // UPDATE THE post
     app.put('/api/post/update/:_id', function(req, res){
+        
         Post.update({ _id: req.params._id }, { $set: req.body }, function(err, output){
             if(err) return res.send({errCode: -1, errMsg: 'database failure', err: err});
             if(!output.n) return res.json({errCode: -1, errMsg: '게시글을 찾을 수 없습니다.'});
