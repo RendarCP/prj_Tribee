@@ -11,8 +11,8 @@ const initialstate = {
   logoutError: null,
 };
 
-const reducer = (state = initialstate, action) => {
-  switch(action.type){
+// const reducer = (state = initialstate, action) => {
+//   switch(action.type){
     
-  })
-}
+//   })
+// }
