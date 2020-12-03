@@ -1,29 +1,31 @@
+const express = require('express');
+const router = express.Router();
+const File = require("../models/file");
+const upload = multer({storage: storage});
+//var fs = require("fs"); // 파일시스템 접근을 위한 모듈 호출 
 
-var fs = require("fs"); // 파일시스템 접근을 위한 모듈 호출 
-module.exports = function(app, File, upload)
-{
-    // 업로드 - 파일 업로드 폼 // file: 속성 name값
-    app.post('/files/upload', upload.single('file'), function(req, res){
-        console.log(req.file); // 콘솔(터미널)을 통해서 req.file Object 내용 확인 가능.
-        //console.log(req.body);
-        //console.log(req);
-        var obj = req.file;
-        var file = new File(obj);    
-        file.save(function(err){ // DB에 저장한다.​
-            if(err) return res.send({errCode: -1, errMsg: '저장에 실패하였습니다.', err: err});
-        });  
-        res.json({errCode: 1, errMsg: '업로드되었습니다.', file:req.file});
-    });
+// 업로드 - 파일 업로드 폼 // file: 속성 name값
+router.post('/files/upload', upload.single('file'), function(req, res){
+    console.log(req.file); // 콘솔(터미널)을 통해서 req.file Object 내용 확인 가능.
+    //console.log(req.body);
+    //console.log(req);
+    var obj = req.file;
+    var file = new File(obj);    
+    file.save(function(err){ // DB에 저장한다.​
+        if(err) return res.send({errCode: -1, errMsg: '저장에 실패하였습니다.', err: err});
+    });  
+    res.json({errCode: 1, errMsg: '업로드되었습니다.', file:req.file});
+});
 
-    // 파일 여러개
-    app.post('/files/uploads', upload.array('file'), (req, res) => {
-        console.log(req.files);
-        //console.log(req.body);
-        //console.log(req);
-        res.json({errCode: 1, errMsg: '업로드되었습니다.', files:req.files});
-    });
+// 파일 여러개
+router.post('/files/uploads', upload.array('file'),  function(req, res){
+    console.log(req.files);
+    //console.log(req.body);
+    //console.log(req);
+    res.json({errCode: 1, errMsg: '업로드되었습니다.', files:req.files});
+});
 
-}
+module.exports = router;
 
 // const storage = multer.diskStorage({ 
 //     destination(req, file, callback) { 

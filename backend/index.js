@@ -1,18 +1,19 @@
-// server.js
+// index.js
 
 // [ENV] process
 require('dotenv').config();
 
 // [LOAD PACKAGES]
 const express     = require('express');
+const app         = express();
 const ejs         = require("ejs");
 const bodyParser  = require('body-parser');
+//const cookieParser = require("cookie-parser");
 const session     = require('express-session');
 const mongoose    = require('mongoose');
 const cors        = require('cors'); // 크로스 도메인
 const multer      = require('multer'); // express에 multer모듈 적용 (for 파일업로드)
 const path        = require('path');
-const app         = express();
 
 // [ CONFIGURE mongoose ]
 var db_uri = process.env.MONGO_URI || 'mongodb://localhost:27017';
@@ -27,13 +28,6 @@ mongoose.connect(db_uri)
     .then(() => console.log('Successfully connected to ' + db_uri))
     .catch(e => console.error(e));
 
-// [CONFIGURE SERVER PORT]
-var port = process.env.PORT || 8080;
-// [RUN SERVER]
-var server = app.listen(port, function(){
- console.log("Express server has started on port " + port)
-});
-
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile);
@@ -47,37 +41,30 @@ app.use(session({
     resave: false,
     saveUninitialized: true
 }));
+//app.use(cookieParser());
 
-// public : **정적인 파일이 위치할 디렉토리의 이름**
-app.use(express.static('sources'));
 // CORS 미들웨어 추가
 app.use(cors()); 
 
+// public : **정적인 파일이 위치할 디렉토리의 이름**
+app.use(express.static('sources'));
+
 // 저장한 파일 조회
 app.use(express.static('uploads'));
-// 입력한 파일이 uploads/ 폴더 내에 저장된다.
-// dest : 파일 위치
-// limits: [fileSize]
-// var upload = multer({ dest: 'uploads/' })
-var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, 'uploads') // cb 콜백함수를 통해 전송된 파일 저장 디렉토리 설정
-    },
-    filename: function (req, file, cb) {
-      //cb(null, file.originalname) // cb 콜백함수를 통해 전송된 파일 이름 설정
-      cb(null, new Date().valueOf() + path.extname(file.originalname));
-    }
-});
-var upload = multer({storage: storage});
-
-// [DEFINE MODEL]
-var Post = require('./models/post');
-var User = require('./models/user');
-var File = require('./models/file');
-
 // [CONFIGURE ROUTER]
-var router = require('./routes/main')(app);
-var router = require('./routes/userRoute')(app, User);
-var router = require('./routes/loginRoute')(app, User);
-var router = require('./routes/postRoute')(app, Post);
-var router = require('./routes/fileRoute')(app, File ,upload);
+app.use('/', require('./routes/main'));
+app.use('/', require('./routes/loginRoute'));
+app.use('/api/users', require('./routes/userRoute'));
+app.use('/api/post', require('./routes/postRoute'));
+// app.use('/api/file', require('./routes/fileRoute'));
+// app.use('/', require('./routes/userRoute'));
+// app.use('/', require('./routes/postRoute'));
+// app.use('/', require('./routes/fileRoute'));
+
+// [CONFIGURE SERVER PORT]
+var port = process.env.PORT || 8080;
+
+// [RUN SERVER]
+var server = app.listen(port, function(){
+ console.log("Server Running at " + port)
+});

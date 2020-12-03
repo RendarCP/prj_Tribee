@@ -16,8 +16,8 @@ var userSchema = new Schema({
     updateDate: { type: Date, default: Date.now  }
 });
 
-userSchema.findById = function findById (id, fields, options, callback) {
-    return this.findOne({ _id: id }, fields, options, callback);
-};
+//userSchema.findById = function findById (id, fields, options, callback) {
+ //   return this.findOne({ _id: id }, fields, options, callback);
+//};
 
 module.exports = mongoose.model('user', userSchema);
