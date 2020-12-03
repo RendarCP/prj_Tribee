@@ -1,6 +1,7 @@
 import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import more from '../../images/more.svg'
+import UserAvatar from '../UserAvatar.js'
 
 function PostProfile() {
   return (
@@ -23,7 +24,8 @@ function PostProfile() {
             }}>
             조
           </div> */}
-          <Avatar>조</Avatar>
+          {/* <Avatar>조</Avatar> */}
+          <UserAvatar />
           <div style={{ fontSize: 14, fontWeight: 'bold', marginLeft: 10 }}>test</div>
         </div>
         <div>

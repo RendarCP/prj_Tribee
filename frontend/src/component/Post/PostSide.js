@@ -1,8 +1,60 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TiPlus } from 'react-icons/ti'
 import { Link } from 'react-router-dom'
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
+import { MAP_API } from '../../modules/Util.js'
+
+import { RenderAfterNavermapsLoaded, NaverMap } from 'react-naver-maps';
+
+function NaverMapAPI() {
+  const [latitude, setLatitude] = useState('');
+  const [longitude, setLongitude] = useState('');
+  const getLocation = () => {
+    if (navigator.geolocation) { 
+      navigator.geolocation.getCurrentPosition((position) => {
+        alert(position.coords.latitude + ' ' + position.coords.longitude);
+        setLatitude(position.coords.latitude);
+        setLongitude(position.coords.longitude);
+      }, (error) => {
+        console.error(error);
+      }, {
+        enableHighAccuracy: false,
+        maximumAge: 0,
+        timeout: Infinity
+      });
+    } else {
+      alert('GPS를 지원하지 않습니다');
+    }
+  }
+  return(
+    <NaverMap
+      mapDivId={'maps-getting-started-uncontrolled'} 
+      style={{
+        width: '100%', 
+        height: '100%' 
+      }}
+      defaultCenter={{ lat: latitude, lng: longitude }} 
+      defaultZoom={13} 
+    />
+  );
+}
+
+function getLocation() {
+  if (navigator.geolocation) { // GPS를 지원하면
+    navigator.geolocation.getCurrentPosition(function(position) {
+      alert(position.coords.latitude + ' ' + position.coords.longitude);
+    }, function(error) {
+      console.error(error);
+    }, {
+      enableHighAccuracy: false,
+      maximumAge: 0,
+      timeout: Infinity
+    });
+  } else {
+    alert('GPS를 지원하지 않습니다');
+  }
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,25 +74,10 @@ function PostSide() {
   return (
     <div style={{ 
       width: '30%',
-      // position: 'relative',
-      // bottom: 160,
-      // left: 30,
       marginLeft: 30,
       marginBottom: 340
       }}>
       <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-        {/* <div style={{ 
-          border: '1px solid black', 
-          width: 50, 
-          height: 50, 
-          borderRadius: 25,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginRight: 10
-          }}>
-          조
-        </div> */}
         <Avatar className={classes.large}>조</Avatar>
         <div style={{ flexDirection: 'row', marginLeft: 20}}>
           <div style={{ fontSize: 14, fontWeight: 'bold'}}>test</div>
@@ -65,8 +102,14 @@ function PostSide() {
       </div>
       
       <div style={{ marginTop: 20 }}>
-        <div style={{ width: "100%", height: 200, border: '1px solid blue'}}>
-          지도부분
+        <div style={{ width: "100%", height: 200 }}>
+          <RenderAfterNavermapsLoaded
+            ncpClientId={MAP_API} // 자신의 네이버 계정에서 발급받은 Client ID
+            error={<p>Maps Load Error</p>}
+            loading={<p>Maps Loading...</p>}
+          >
+            <NaverMapAPI />
+          </RenderAfterNavermapsLoaded>
         </div>
       </div>
     </div>

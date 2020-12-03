@@ -41,13 +41,19 @@ function Login({ history }) {
       padding: '0 100',
       margin: '0 auto'
       }}>
-      <div>Tribee 로그인</div>
+      <div style={{
+        width: '100%', 
+        textAlign: 'center',
+        fontWeight: 'bold',
+        fontSize: 20
+      }}>Tribee 로그인</div>
       <div style={{ 
         display: 'flex', 
         alignItems: 'center', 
         justifyContent: 'center', 
         flexDirection: 'column', 
-        width: '100%'
+        width: '100%',
+        marginTop: 50
         }}>
         <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
           <input 

@@ -1,5 +1,8 @@
 import React from 'react';
+import { useHistory, Link } from 'react-router-dom';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import Avatar from '@material-ui/core/Avatar';
+import UserAvatar from './UserAvatar.js'
 
 // icons
 import { HiHome } from 'react-icons/hi'
@@ -10,6 +13,10 @@ import { GoLocation } from 'react-icons/go'
 import unlike from '../images/unlike.svg'
 
 function Header() {
+  // const history = useHistory();
+  // const onClick = () => {
+  //   history.push('/posts');
+  // }
   const matches = useMediaQuery('(min-width:900px)');
   return (
     <div style={{ 
@@ -20,15 +27,18 @@ function Header() {
         alignItems: 'center',
         borderBottom: '1px solid gray',
         justifyContent: 'space-between'}}>
-      <div style={{ fontSize: 24, fontWeight: 'bold' }}>
-        Tribee
-      </div>
+      <Link to='/'>
+        <div 
+          style={{ fontSize: 24, fontWeight: 'bold', color: 'black' }}>
+          Tribee
+        </div>
+      </Link>
       
       <div>
         <input />
       </div>
       
-      <div style={{ display:'flex', flexDirection: 'row'}}>
+      <div style={{ display:'flex', flexDirection: 'row', alignItems: 'center'}}>
         <div>
           <HiHome style={{ width: 32, height: 32 }}/>
         </div>
@@ -51,7 +61,7 @@ function Header() {
         </div>
         <div style={{ marginRight: 20 }} />
 
-        <div style={{ 
+        {/* <div style={{ 
             border: '1px solid black', 
             width: 32, 
             height: 32, 
@@ -61,7 +71,9 @@ function Header() {
             justifyContent: 'center'
             }}>
             조
-          </div>
+          </div> */}
+          {/* <Avatar>조</Avatar> */}
+          <UserAvatar />
       </div>
     </div>
   );
