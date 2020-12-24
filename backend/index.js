@@ -12,8 +12,6 @@ const bodyParser  = require('body-parser');
 const session     = require('express-session');
 const mongoose    = require('mongoose');
 const cors        = require('cors'); // 크로스 도메인
-const multer      = require('multer'); // express에 multer모듈 적용 (for 파일업로드)
-const path        = require('path');
 
 // [ CONFIGURE mongoose ]
 var db_uri = process.env.MONGO_URI || 'mongodb://localhost:27017';
@@ -54,9 +52,9 @@ app.use(express.static('uploads'));
 // [CONFIGURE ROUTER]
 app.use('/', require('./routes/main'));
 app.use('/', require('./routes/loginRoute'));
-app.use('/api/users', require('./routes/userRoute'));
+app.use('/api/user', require('./routes/userRoute'));
 app.use('/api/post', require('./routes/postRoute'));
-// app.use('/api/file', require('./routes/fileRoute'));
+app.use('/api/file', require('./routes/fileRoute'));
 // app.use('/', require('./routes/userRoute'));
 // app.use('/', require('./routes/postRoute'));
 // app.use('/', require('./routes/fileRoute'));

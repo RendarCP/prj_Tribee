@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Post = require("../models/post");
+const path = require('path');
 
 const multer = require('multer');
 // 입력한 파일이 uploads/ 폴더 내에 저장된다.
@@ -17,7 +18,6 @@ const storage = multer.diskStorage({
     }
 });
 const upload = multer({storage: storage});
-
 //var fs = require("fs"); // 파일시스템 접근을 위한 모듈 호출 
 
 // GET ALL POSTS
@@ -42,8 +42,8 @@ router.get('/getPost/:_id', function(req, res){
 
 // GET SINGLE post
 router.post('/insert', upload.array('file'), function(req, res){
-    console.log(req.files);
-    console.log(req.body);
+    console.log('req.files ', req.files);
+    console.log('req.body ', req.body);
 
     //var obj = req.files;
     //var file = new File(obj);   
