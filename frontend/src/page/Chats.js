@@ -1,17 +1,29 @@
 import React, { useState } from 'react';
-import { FaRegPaperPlane } from 'react-icons/fa';
+import { FaRegPaperPlane,FaInfoCircle } from 'react-icons/fa';
 
-import UserAvatar from '../component/UserAvatar.js'
+import UserAvatar from '../component/UserAvatar.js';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 function Chats() {
+  const matches = useMediaQuery('(min-width:900px)');
   return (
-    <div style={{ padding: '0 300px' }}>
-      <div style={{ display: 'flex', justifyContent: 'center', border: '1px solid gray', borderRadius: 5 }}>
-        <div style={{ border: '1px solid red', width: '40%' }}>
+    <div style={{ padding: matches ? '0 300px' : 0 }}>
+      <div style={{ display: 'flex', justifyContent: 'center', border: '2px solid gray', borderRadius: 10 }}>
+        <div style={{ width: '40%'}}>
+          <div style={{ 
+              display:'flex', 
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              padding: 15,
+              borderBottom: '1px solid gray'}}>
+            <div />
+            <div style={{ fontSize: 20, fontWeight: 'bold'}}>test</div>
+            <FaRegPaperPlane style={{ width: 24, height: 24, padding: 5 }} />
+          </div>
           <ChatList />
         </div>
-        <div style={{ border: '1px solid blue', width: '70%' }}>
-          채팅부분 
+        <div style={{ borderLeft: '2px solid gray',width: '70%' }}>
+          <Chat />
         </div>
       </div>
     </div>
@@ -20,21 +32,43 @@ function Chats() {
 
 function ChatList() {
   return(
-    <div style={{ padding: 15}}>
-      <div style={{ 
-          display:'flex', 
-          padding: 10, 
-          justifyContent: 'space-between',
-          alignItems: 'center'}}>
-        <div />
-        <div style={{ fontSize: 20, fontWeight: 'bold'}}>test</div>
-        <FaRegPaperPlane style={{ width: 24, height: 24 }} />
-      </div>
-      <div>
+    <div>
+      <div style={{ padding: 15 }}>
         <UserProfile />
       </div>
     </div>
   );
+}
+
+function Chat() {
+  return(
+    <div>
+      <div style={{ 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center', 
+          padding: 15,
+          borderBottom: '1px solid gray'}}>
+        <div style={{ display: 'flex', alignItems: 'center'}}>
+          <UserAvatar small/>
+          <div style={{ marginLeft: 10, fontWeight: 'bold'}}>
+            test
+          </div>
+        </div>
+        <div><FaInfoCircle style={{ width: 30, height: 30 }}/></div>
+      </div>
+      <div style={{ padding: 15 }}>
+        <div style={{ 
+          display: 'flex',
+          borderRadius: 5, 
+          backgroundColor: 'gray', 
+          justifyContent: 'flex-end'}}>
+          <div>본인이 작성한 글</div>
+        </div>
+        <div>상대방이 작성한 글</div>
+      </div>
+    </div>
+  )
 }
 
 function UserProfile() {

@@ -62,75 +62,77 @@ function EditPost() {
   const classes = useStyles();
   return (
     console.log('test', post),
-    <div style={{ 
-      justifyContent: 'center', 
-      alignItems: 'center', 
-      flexDirection: 'row',
-      padding: matches ? "0 300px" : "0 100px"
-      }}>
-      <div>
-        <div 
-          style={{ 
-            display: 'flex', 
-            justifyContent: 'center',
-          }}>
-            <div style={{ width: '100%', borderBottom: '2px solid #d6a511', marginBottom: 13}}/>
-            <div style={{ 
-              width: '100%', 
-              textAlign: 'center',
-              fontWeight: 'bold',
-              fontSize: 20
-            }}>Tribee 게시글 작성</div>
-            <div style={{ width: '100%', borderBottom: '2px solid #d6a511', marginBottom: 13}}/>
-          </div>
-        <ImageUploader 
-          fileContainerStyle={{
-            border: '1px solid #d6a511'
-          }}
-          label="이미지선택해주세요 (5mb이하 파일)"
-          buttonText="이미지 선택"
-          fileTypeError="이미지 형식만 업로드 가능합니다!"
-          fileSizeError="이미지 사이즈가 너무 큽니다!"
-          onChange={onDrop}
-          withPreview={true}
-          buttonStyles={{ backgroundColor: '#d6a511', color: 'black', fontSize: 20 }}
-        />
+    <form encType="multipart/form-data">
+      <div style={{ 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        flexDirection: 'row',
+        padding: matches ? "0 300px" : "0 100px"
+        }}>
+        <div>
+          <div 
+            style={{ 
+              display: 'flex', 
+              justifyContent: 'center',
+            }}>
+              <div style={{ width: '100%', borderBottom: '2px solid #d6a511', marginBottom: 13}}/>
+              <div style={{ 
+                width: '100%', 
+                textAlign: 'center',
+                fontWeight: 'bold',
+                fontSize: 20
+              }}>Tribee 게시글 작성</div>
+              <div style={{ width: '100%', borderBottom: '2px solid #d6a511', marginBottom: 13}}/>
+            </div>
+          <ImageUploader 
+            fileContainerStyle={{
+              border: '1px solid #d6a511'
+            }}
+            label="이미지선택해주세요 (5mb이하 파일)"
+            buttonText="이미지 선택"
+            fileTypeError="이미지 형식만 업로드 가능합니다!"
+            fileSizeError="이미지 사이즈가 너무 큽니다!"
+            onChange={onDrop}
+            withPreview={true}
+            buttonStyles={{ backgroundColor: '#d6a511', color: 'black', fontSize: 20 }}
+          />
+        </div>
+        <div style={{ marginTop: 50 }}>
+          <TextField
+            className={classes.root}
+            rows={5}
+            fullWidth 
+            multiline
+            name="contents"
+            onChange={onChange}
+            label="내용"
+            variant='outlined'
+          />
+        </div>
+        <div style={{ marginTop: 50}}>
+          <TextField
+            className={classes.root}
+            fullWidth 
+            name="tag"
+            onChange={onChange}
+            label="태그"
+            variant="outlined"
+          />
+        </div>
+        <div>
+          <div 
+            style={{ 
+              marginTop:30,
+              textAlign: 'center', 
+              backgroundColor: '#d6a511', 
+              borderColor:'#d6a511', 
+              borderRadius: 4, 
+              padding: 10 }}
+              onClick={onPostUpload}
+            >저장</div>
+        </div>
       </div>
-      <div style={{ marginTop: 50 }}>
-        <TextField
-          className={classes.root}
-          rows={5}
-          fullWidth 
-          multiline
-          name="contents"
-          onChange={onChange}
-          label="내용"
-          variant='outlined'
-        />
-      </div>
-      <div style={{ marginTop: 50}}>
-        <TextField
-          className={classes.root}
-          fullWidth 
-          name="tag"
-          onChange={onChange}
-          label="태그"
-          variant="outlined"
-        />
-      </div>
-      <div>
-      <div 
-        style={{ 
-          marginTop:30,
-          textAlign: 'center', 
-          backgroundColor: '#d6a511', 
-          borderColor:'#d6a511', 
-          borderRadius: 4, 
-          padding: 10 }}
-          onClick={onPostUpload}
-        >저장</div>
-      </div>
-    </div>
+    </form>
   );
 }
 

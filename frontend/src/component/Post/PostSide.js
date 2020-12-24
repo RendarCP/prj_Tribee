@@ -7,43 +7,32 @@ import { MAP_API } from '../../modules/Util.js'
 
 import { RenderAfterNavermapsLoaded, NaverMap } from 'react-naver-maps';
 
-function NaverMapAPI() {
-  const [latitude, setLatitude] = useState('');
-  const [longitude, setLongitude] = useState('');
-  const getLocation = () => {
-    if (navigator.geolocation) { 
-      navigator.geolocation.getCurrentPosition((position) => {
-        alert(position.coords.latitude + ' ' + position.coords.longitude);
-        setLatitude(position.coords.latitude);
-        setLongitude(position.coords.longitude);
-      }, (error) => {
-        console.error(error);
-      }, {
-        enableHighAccuracy: false,
-        maximumAge: 0,
-        timeout: Infinity
-      });
-    } else {
-      alert('GPS를 지원하지 않습니다');
-    }
+function NaverMapAPI(props) {
+  if(props.latitude !== '' && props.longitude !== ''){
+    return(
+      console.log('navermap if', props),
+      <NaverMap
+        mapDivId={'maps-getting-started-uncontrolled'} 
+        style={{
+          width: '100%', 
+          height: '100%' 
+        }}
+        defaultCenter={{ lat: props.latitude, lng: props.longitude }} 
+        defaultZoom={15} 
+      />
+    );
   }
-  return(
-    <NaverMap
-      mapDivId={'maps-getting-started-uncontrolled'} 
-      style={{
-        width: '100%', 
-        height: '100%' 
-      }}
-      defaultCenter={{ lat: latitude, lng: longitude }} 
-      defaultZoom={13} 
-    />
-  );
+  else{
+    return (
+      <div>지도 로딩중...</div>
+    )
+  }
 }
 
 function getLocation() {
   if (navigator.geolocation) { // GPS를 지원하면
     navigator.geolocation.getCurrentPosition(function(position) {
-      alert(position.coords.latitude + ' ' + position.coords.longitude);
+      //alert(position.coords.latitude + ' ' + position.coords.longitude);
     }, function(error) {
       console.error(error);
     }, {
@@ -71,11 +60,30 @@ const useStyles = makeStyles((theme) => ({
 
 function PostSide() {
   const classes = useStyles();
+  const [latitude, setLatitude] = useState('');
+  const [longitude, setLongitude] = useState('');
+  const getLocation = () => {
+    if (navigator.geolocation) { 
+      navigator.geolocation.getCurrentPosition((position) => {
+        //alert(position.coords.latitude + ' ' + position.coords.longitude);
+        setLatitude(position.coords.latitude);
+        setLongitude(position.coords.longitude);
+      }, (error) => {
+        console.error(error);
+      }, {
+        enableHighAccuracy: false,
+        maximumAge: 0,
+        timeout: Infinity
+      });
+    } else {
+      alert('GPS를 지원하지 않습니다');
+    }
+  }
   return (
+    getLocation(),
     <div style={{ 
       width: '30%',
       marginLeft: 30,
-      marginBottom: 340
       }}>
       <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
         <Avatar className={classes.large}>조</Avatar>
@@ -102,13 +110,13 @@ function PostSide() {
       </div>
       
       <div style={{ marginTop: 20 }}>
-        <div style={{ width: "100%", height: 200 }}>
+        <div style={{ width: "100%", height: 400 }}>
           <RenderAfterNavermapsLoaded
             ncpClientId={MAP_API} // 자신의 네이버 계정에서 발급받은 Client ID
             error={<p>Maps Load Error</p>}
             loading={<p>Maps Loading...</p>}
           >
-            <NaverMapAPI />
+            <NaverMapAPI latitude={latitude} longitude={longitude}/>
           </RenderAfterNavermapsLoaded>
         </div>
       </div>

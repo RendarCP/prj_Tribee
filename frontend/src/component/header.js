@@ -39,14 +39,18 @@ function Header() {
       </div>
       
       <div style={{ display:'flex', flexDirection: 'row', alignItems: 'center'}}>
-        <div>
-          <HiHome style={{ width: 32, height: 32 }}/>
-        </div>
+        <Link to='/'>
+          <div>
+            <HiHome style={{ width: 32, height: 32, color: 'black' }}/>
+          </div>
+        </Link>
         <div style={{ marginRight: 20 }} />
         
-        <div>
-          <BiComment style={{ width: 32, height: 32 }} />
-        </div>
+          <Link to='/chat'>
+            <div>
+              <BiComment style={{ width: 32, height: 32, color: 'black' }} />
+            </div>
+          </Link>
         <div style={{ marginRight: 20 }} />
 
         <div>

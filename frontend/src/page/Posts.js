@@ -15,7 +15,6 @@ function Posts() {
       display: 'flex', 
       flexDirection: 'row', 
       justifyContent: 'center', 
-      alignItems: 'center',
       padding: matches ? "0 300px" : 0
       }}>
       <PostView />

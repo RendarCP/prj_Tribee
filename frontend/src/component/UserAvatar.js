@@ -10,6 +10,10 @@ function UserAvatar(props) {
         margin: theme.spacing(1),
       },
     },
+    small: {
+      width: 30,
+      height: 30,
+    },
     large: {
       width: 50,
       height: 50,
@@ -18,7 +22,7 @@ function UserAvatar(props) {
   const classes = useStyles();
   return(
     <div>
-      <Avatar className={props.large ? classes.large : null}>조</Avatar>
+      <Avatar className={props.large ? classes.large : classes.small}>조</Avatar>
     </div>
   );
 }
