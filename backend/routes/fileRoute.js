@@ -1,11 +1,24 @@
 const express = require('express');
 const router = express.Router();
 const File = require("../models/file");
+const path = require('path');
+
+const multer = require('multer'); // express에 multer모듈 적용 (for 파일업로드)
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'uploads') // cb 콜백함수를 통해 전송된 파일 저장 디렉토리 설정
+    },
+    filename: function (req, file, cb) {
+      //cb(null, file.originalname) // cb 콜백함수를 통해 전송된 파일 이름 설정
+      cb(null, new Date().valueOf() + path.extname(file.originalname));
+    }
+});
 const upload = multer({storage: storage});
-//var fs = require("fs"); // 파일시스템 접근을 위한 모듈 호출 
+
+var fs = require("fs"); // 파일시스템 접근을 위한 모듈 호출 
 
 // 업로드 - 파일 업로드 폼 // file: 속성 name값
-router.post('/files/upload', upload.single('file'), function(req, res){
+router.post('/upload', upload.single('file'), function(req, res){
     console.log(req.file); // 콘솔(터미널)을 통해서 req.file Object 내용 확인 가능.
     //console.log(req.body);
     //console.log(req);
@@ -18,7 +31,7 @@ router.post('/files/upload', upload.single('file'), function(req, res){
 });
 
 // 파일 여러개
-router.post('/files/uploads', upload.array('file'),  function(req, res){
+router.post('/uploads', upload.array('file'),  function(req, res){
     console.log(req.files);
     //console.log(req.body);
     //console.log(req);
@@ -76,5 +89,4 @@ module.exports = router;
 //                 console.dir(err.stack); 
 //             } 
 //     }); 
-//     module.exports = router;
 
