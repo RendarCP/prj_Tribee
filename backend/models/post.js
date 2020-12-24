@@ -6,9 +6,9 @@ var postSchema = new Schema({
     contents: String,   // 내용
     images: Array,       // 사진
     tags: Array,       // 태그
-    like: String,       // 좋아요
+    like: Array,       // 좋아요
     comments: Array,   // 댓글
-    positionId: String, // 위치
+    positionId: Array, // 위치
     createUser: String,
     createDate: { type: Date, default: Date.now  },
     updateUser: String,
