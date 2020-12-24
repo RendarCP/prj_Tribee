@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ImageUploader from "react-images-upload";
+import axios from 'axios';
 import TextField from '@material-ui/core/TextField';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { makeStyles } from "@material-ui/core/styles";
@@ -26,7 +27,7 @@ const useStyles = makeStyles({
     }
   }
 });
-function EditPost() {
+function EditPost({ history }) {
   const matches = useMediaQuery('(min-width:900px)');
   const [pictures, setPictures] = useState([]);
   const [post, setPosts] = useState({});
@@ -57,6 +58,22 @@ function EditPost() {
       comments: {},
       positionId: {}
     })
+    axios.post("http://localhost:8080/api/post/insert", {
+      userId: 'test03',
+      contents: inputs.contents,
+      tag: inputs.tag,
+      images: pictures,
+      like: {},
+      comments: {},
+      positionId: {}
+    })
+      .then( response => {
+        console.log(response);
+        history.push('/posts');
+      })
+      .catch( err => {
+        console.log(err);
+      })
   }
 
   const classes = useStyles();

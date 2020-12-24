@@ -60,12 +60,17 @@ function Chat() {
       <div style={{ padding: 15 }}>
         <div style={{ 
           display: 'flex',
-          borderRadius: 5, 
-          backgroundColor: 'gray', 
-          justifyContent: 'flex-end'}}>
-          <div>본인이 작성한 글</div>
+          justifyContent: 'flex-end',
+          wordBreak: 'break-all',
+          }}>
+          <div style={{ backgroundColor: 'gray', borderRadius: 5, padding: 10 }}>본인이 작성한 글</div>
         </div>
-        <div>상대방이 작성한 글</div>
+        <div style={{ 
+          display: 'flex',
+          wordBreak: 'break-all',
+          }}>
+          <div style={{ border:'2px solid gray', borderRadius: 5, padding: 10 }}>상대방이 작성한 글</div>
+        </div>
       </div>
     </div>
   )
