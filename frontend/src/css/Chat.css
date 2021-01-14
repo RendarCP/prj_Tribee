@@ -1,0 +1,7 @@
+.profile {
+  display: flex;
+  padding: 15px;
+}
+.profile:hover {
+  background-color: #e8e8e8;
+}
