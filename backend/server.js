@@ -1,4 +1,4 @@
-// index.js
+// server.js
 
 // [ENV] process
 require('dotenv').config();
@@ -22,6 +22,7 @@ connection.once('open', function(){
     // CONNECTED TO MONGODB SERVER
     console.log("Connected to mongod server");
 });
+
 mongoose.connect(db_uri)
     .then(() => console.log('Successfully connected to ' + db_uri))
     .catch(e => console.error(e));
@@ -35,9 +36,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.text());
 app.use(session({
+    key: 'sid',
     secret: '@#@$MYSIGN#@$#$',
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: true,
+    cookie: {
+      maxAge: 24000 * 60 * 60 // 쿠키 유효기간 24시간
+    }
 }));
 //app.use(cookieParser());
 
@@ -55,7 +60,7 @@ app.use('/', require('./routes/loginRoute'));
 app.use('/api/user', require('./routes/userRoute'));
 app.use('/api/post', require('./routes/postRoute'));
 app.use('/api/file', require('./routes/fileRoute'));
-// app.use('/', require('./routes/userRoute'));
+app.use('/api/chat', require('./routes/chatRoute'));
 // app.use('/', require('./routes/postRoute'));
 // app.use('/', require('./routes/fileRoute'));
 
