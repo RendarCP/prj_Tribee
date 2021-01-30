@@ -41,7 +41,11 @@ router.post('/api/login', function(req, res){
             sess.userId = user.userId;
             sess.userNm = user.userNm;
             //sess.userPw = user.userPw;
-            return res.json({errCode: 1, errMsg: '로그인되었습니다.', userNm: user.userNm});
+            return res.json({
+                errCode: 1, 
+                errMsg: '로그인되었습니다.', 
+                userNm: user.userNm, 
+                userId: user.userId});
         }      
     })
 });

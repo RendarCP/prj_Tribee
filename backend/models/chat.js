@@ -2,8 +2,8 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var chatSchema = new Schema({
-    roomId: String,        // chats id 값
-    content: String,        // 마지막 메세지
+    roomId: String,      // 채팅방 id 값
+    chat: String,        // 내용
     createUser: String,
     createDate: { type: Date, default: Date.now  }
 });

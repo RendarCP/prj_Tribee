@@ -7,7 +7,7 @@ const Chat = require("../models/chat");
 router.get('/rooms', function(req, res){
     Room.find(function(err, Room){
         if(err) return res.send({errCode: -1, errMsg: 'database failure', err: err});
-        if(0 == Rooms.length) return res.json({errCode: 1, errMsg: '채팅방이 존재하지 않습니다.'});
+        if(0 == Room.length) return res.json({errCode: 1, errMsg: '채팅방이 존재하지 않습니다.'});
         res.json(Rooms);
     })
 });
