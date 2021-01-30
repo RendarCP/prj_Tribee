@@ -32,16 +32,17 @@ router.post('/api/login', function(req, res){
     
     User.findOne({$and:[{userId: userId},{userPw:userPw}]}, function(err, user){
         if(err) return res.send({errCode: -1, errMsg: 'database failure', err: err});
+        
+        console.log('user', user);
+        console.log('session', sess);
         if(!user){
             return res.json({errCode: -1, errMsg: '아이디와 패스워드가 일치하지 않습니다.'});
         } else {
             sess.userId = user.userId;
             sess.userNm = user.userNm;
             //sess.userPw = user.userPw;
-            return res.json({errCode: 1, errMsg: '로그인되었습니다.'});
+            return res.json({errCode: 1, errMsg: '로그인되었습니다.', userNm: user.userNm});
         }      
-        console.log('user', user);
-        console.log('session', sess);
     })
 });
 
