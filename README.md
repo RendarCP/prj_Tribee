@@ -2,6 +2,8 @@
 side project (SeongWook, Jihee)
 --------------
 
+- 2020.07 ~ ing
+
 ## Skills
 - FrontEnd
 1. React
@@ -11,3 +13,6 @@ side project (SeongWook, Jihee)
 - BackEnd
 1. Express
 2. MongoDB
+
+
+## ScreenShot
